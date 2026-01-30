@@ -104,18 +104,18 @@ CREATE TABLE assignment (
 
 INSERT INTO assignment VALUES
 -- Current import (job_id = 200) - USE THIS
-(200, 'PKLF 10 12 01', 'SKU-A001', 100, 'AMBIENT'),
-(200, 'PKLF 10 12 02', 'SKU-A002', 80, 'AMBIENT'),
-(200, 'PKLF 10 12 03', 'SKU-A003', 50, 'AMBIENT'),
-(200, 'PKLF 15 10 01', 'SKU-A004', 120, 'AMBIENT'),
-(200, 'PKLF 20 15 01', 'SKU-C001', 60, 'COLD'),
-(200, 'PKLF 20 15 02', 'SKU-C002', 45, 'COLD'),
-(200, 'PKLF 25 01 01', 'SKU-B001', 10, 'BULK'),
-(200, 'PKLF 25 01 02', 'SKU-B002', 25, 'BULK'),
-(200, 'PKLF 35 01 01', 'SKU-B001', 8, 'DISPATCH'),
+(200, 'ABCD 10 12 01', 'SKU-A001', 100, 'AMBIENT'),
+(200, 'ABCD 10 12 02', 'SKU-A002', 80, 'AMBIENT'),
+(200, 'ABCD 10 12 03', 'SKU-A003', 50, 'AMBIENT'),
+(200, 'ABCD 15 10 01', 'SKU-A004', 120, 'AMBIENT'),
+(200, 'ABCD 20 15 01', 'SKU-C001', 60, 'COLD'),
+(200, 'ABCD 20 15 02', 'SKU-C002', 45, 'COLD'),
+(200, 'ABCD 25 01 01', 'SKU-B001', 10, 'BULK'),
+(200, 'ABCD 25 01 02', 'SKU-B002', 25, 'BULK'),
+(200, 'ABCD 35 01 01', 'SKU-B001', 8, 'DISPATCH'),
 
 -- Old import (job_id = 199) - should NOT be used
-(199, 'PKLF 10 12 01', 'SKU-OLD', 50, 'AMBIENT');
+(199, 'ABCD 10 12 01', 'SKU-OLD', 50, 'AMBIENT');
 
 
 -- ============================================================

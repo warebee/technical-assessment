@@ -4,17 +4,12 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 15, 23, 42;
-  --background-end-rgb: 30, 41, 59;
+  --background: rgb(29, 31, 34);
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      rgb(var(--background-start-rgb)),
-      rgb(var(--background-end-rgb))
-    );
+  background: var(--background);
   min-height: 100vh;
 }
 
@@ -44,7 +39,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 1rem;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.875rem;
   overflow-x: auto;
   white-space: pre-wrap;
@@ -53,7 +48,7 @@ body {
 
 /* Textarea for SQL */
 textarea.sql-input {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.875rem;
   line-height: 1.5;
   tab-size: 2;
@@ -73,4 +68,262 @@ textarea.sql-input {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Sidebar transition - optimized for performance */
+.sidebar-transition {
+  transition: transform 200ms ease-out;
+  will-change: transform;
+}
+
+/* Comment field transition */
+.comment-transition {
+  transition: max-height 300ms ease-in-out;
+}
+
+/* Focus mode transition */
+.focus-mode-transition {
+  animation: slideInUp 400ms ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sidebar-transition {
+    width: 280px !important;
+  }
+}
+
+/* ===========================================
+   MARKDOWN QUESTION STYLING
+   =========================================== */
+
+/* Question content container */
+.question-content {
+  @apply space-y-6;
+}
+
+/* Section titles in markdown - LARGER */
+.question-content h2 {
+  @apply text-4xl font-bold text-menu-h1 mb-6 pb-3 border-b border-app-header-divide;
+}
+
+.question-content h3 {
+  @apply text-xl font-semibold text-menu-h1 mb-4 flex items-center gap-2;
+}
+
+/* Question description/context - Better hierarchy */
+.question-content p {
+  @apply text-base text-menu-h3 leading-relaxed mb-5;
+}
+
+.question-content em {
+  @apply text-menu-h2 p-3 text-xl;
+}
+
+.question-content strong {
+  @apply text-brand font-semibold;
+}
+
+/* Context label styling */
+.question-content p strong:first-child {
+  @apply text-menu-h2 uppercase text-sm tracking-wide font-semibold;
+}
+
+/* Code blocks in questions */
+.question-content pre {
+  @apply bg-app-panel rounded-xl  overflow-x-auto shadow-xl;
+}
+
+.question-content pre code {
+  @apply block p-5 text-sm font-mono text-menu-h2 leading-relaxed;
+}
+
+/* Inline code */
+.question-content code:not(pre code) {
+  @apply px-2 py-1 bg-app-input text-brand rounded-md text-sm font-mono border border-app-header-divide;
+}
+
+/* Tables in questions (dataset samples) */
+.question-content table {
+  @apply w-full text-sm my-6 border-collapse;
+}
+
+.question-content thead {
+  @apply bg-app-panel;
+}
+
+.question-content th {
+  @apply px-4 py-3 text-left font-semibold text-menu-h2 border-b-2 border-app-header-divide;
+}
+
+.question-content td {
+  @apply px-4 py-3 text-menu-h3 border-b border-app-header-divide font-mono text-xs;
+}
+
+.question-content tbody tr:hover {
+  @apply bg-app-panel/30;
+}
+
+/* Lists in questions */
+.question-content ul,
+.question-content ol {
+  @apply space-y-2 my-5 pl-6;
+}
+
+.question-content li {
+  @apply text-menu-h3 text-base;
+}
+
+.question-content ul li {
+  @apply list-disc;
+}
+
+.question-content ol li {
+  @apply list-decimal;
+}
+
+/* ===========================================
+   TASK STYLING
+   =========================================== */
+
+/* Task card styling */
+.task-card {
+  @apply bg-app-card/80 rounded-xl border border-app-header-divide
+         transition-all duration-200 hover:border-brand/30;
+}
+
+.task-card:focus-within {
+  @apply border-brand/50 ring-1 ring-brand/20;
+}
+
+/* Task header */
+.task-header {
+  @apply pb-3 mb-4 border-b border-app-header-divide/50;
+}
+
+.task-label {
+  @apply text-sm font-medium text-menu-h2 leading-tight;
+}
+
+.task-required {
+  @apply text-red-400 ml-1;
+}
+
+.task-bonus {
+  @apply ml-2 px-2 py-0.5 bg-yellow-500/20 text-yellow-400 text-xs font-medium rounded-full border border-yellow-500/30;
+}
+
+/* Task body */
+.task-body {
+  @apply space-y-3;
+}
+
+/* ===========================================
+   FOCUS MODE ENHANCEMENTS
+   =========================================== */
+
+/* Question context in focus mode */
+.focus-context {
+  @apply bg-app-panel/40 rounded-xl p-6 mb-6 border border-app-header-divide/50;
+}
+
+.focus-context-header {
+  @apply flex items-center justify-between mb-4 pb-3 border-b border-app-header-divide/30;
+}
+
+.focus-context-title {
+  @apply text-sm font-medium text-menu-h4 uppercase tracking-wide;
+}
+
+.focus-context-toggle {
+  @apply text-xs text-menu-h5 hover:text-brand transition-colors cursor-pointer flex items-center gap-1;
+}
+
+/* Focus mode task card */
+.focus-task-card {
+  @apply bg-app-card rounded-2xl p-8 border border-app-header-divide shadow-xl;
+}
+
+/* Compact question view for focus mode */
+.question-compact {
+  @apply text-sm space-y-3;
+}
+
+.question-compact h3 {
+  @apply text-base font-semibold text-menu-h2 mb-2;
+}
+
+.question-compact p {
+  @apply text-menu-h4 text-sm leading-relaxed;
+}
+
+.question-compact pre {
+  @apply text-xs p-3 my-3;
+}
+
+.question-compact table {
+  @apply text-xs my-3;
+}
+
+.question-compact th,
+.question-compact td {
+  @apply px-3 py-2;
+}
+
+/* ===========================================
+   INPUT & EDITOR STYLING
+   =========================================== */
+
+/* Base input styling */
+.form-input {
+  @apply w-full px-5 py-4 bg-app-input border border-app-header-divide rounded-xl
+         focus:ring-2 focus:ring-brand focus:border-brand outline-none transition-all
+         text-menu-h3 placeholder:text-menu-h5;
+}
+
+/* Text area styling */
+.form-textarea {
+  @apply w-full px-5 py-4 bg-app-input border border-app-header-divide rounded-xl
+         focus:ring-2 focus:ring-brand focus:border-brand outline-none transition-all
+         text-menu-h3 placeholder:text-menu-h5 resize-y min-h-[120px];
+}
+
+/* Code/SQL textarea */
+.form-code-textarea {
+  @apply w-full px-5 py-4 bg-app-panel border border-app-header-divide rounded-xl
+         focus:ring-2 focus:ring-brand focus:border-brand outline-none transition-all
+         font-mono text-sm text-menu-h2 placeholder:text-menu-h5 resize-y;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+/* Radio/Checkbox option cards */
+.option-card {
+  @apply flex items-start gap-4 p-4 border border-app-header-divide rounded-xl
+         hover:bg-app-panel/50 hover:border-brand/30 cursor-pointer transition-all;
+}
+
+.option-card:has(input:checked) {
+  @apply bg-brand/10 border-brand/50;
+}
+
+.option-card input[type="radio"],
+.option-card input[type="checkbox"] {
+  @apply mt-1 h-5 w-5 text-brand focus:ring-brand border-menu-h5;
+}
+
+/* Editor container */
+.editor-container {
+  @apply rounded-xl overflow-hidden border border-app-header-divide bg-app-panel;
 }
