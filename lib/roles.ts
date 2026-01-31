@@ -2,8 +2,24 @@
  * Role Configuration
  *
  * Manages assessment roles configuration.
- * Roles are defined statically but can be extended by adding new form files.
+ * Roles are auto-discovered from form files in the /forms directory.
+ *
+ * To add a new role:
+ * 1. Create a new .form.md file in /forms (e.g., intern-implementation.form.md)
+ * 2. Add role metadata to the frontmatter:
+ *    ```yaml
+ *    markform:
+ *      role:
+ *        id: intern
+ *        title: Intern Implementation
+ *        experience: "0 years"
+ *        estimated_time: "45-60 minutes"
+ *        sort_order: 0
+ *    ```
+ * 3. The role will be auto-detected - no code changes needed!
  */
+
+import { discoverForms, getDiscoveredRole, DiscoveredRole } from './form-discovery';
 
 export interface RoleInfo {
   id: string;
@@ -16,53 +32,34 @@ export interface RoleInfo {
 }
 
 /**
- * Static role configuration
- * This matches the form files in the /forms directory
- * To add a new role, add an entry here and create the corresponding .form.md file
+ * Convert DiscoveredRole to RoleInfo for backward compatibility
  */
-const ROLES_CONFIG: RoleInfo[] = [
-  {
-    id: 'junior',
-    title: 'Junior Implementation',
-    experience: '0-2 years',
-    targetScore: '60-75 points',
-    estimatedTime: '60-90 minutes',
-    description: 'SQL and data analysis assessment for junior implementation roles (0-2 years experience)',
-    formFile: 'junior-implementation.form.md',
-  },
-  {
-    id: 'mid',
-    title: 'Mid-Level Implementation',
-    experience: '2-5 years',
-    targetScore: '76-90 points',
-    estimatedTime: '90-120 minutes',
-    description: 'SQL and data analysis assessment for mid-level implementation roles (2-5 years experience)',
-    formFile: 'mid-implementation.form.md',
-  },
-  {
-    id: 'senior',
-    title: 'Senior Implementation',
-    experience: '5+ years',
-    targetScore: '91+ points',
-    estimatedTime: '120-180 minutes',
-    description: 'SQL and data analysis assessment for senior implementation roles (5+ years experience)',
-    formFile: 'senior-implementation.form.md',
-  },
-];
+function toRoleInfo(role: DiscoveredRole): RoleInfo {
+  return {
+    id: role.id,
+    title: role.title,
+    experience: role.experience,
+    targetScore: role.targetScore,
+    estimatedTime: role.estimatedTime,
+    description: role.description,
+    formFile: role.formFile,
+  };
+}
 
 /**
  * Get all available roles
- * Returns the static configuration of available assessment roles
+ * Auto-discovers roles from form files in /forms directory
  */
 export function getAvailableRoles(): RoleInfo[] {
-  return ROLES_CONFIG;
+  return discoverForms().map(toRoleInfo);
 }
 
 /**
  * Get information for a specific role
  */
 export function getRoleInfo(roleId: string): RoleInfo | null {
-  return ROLES_CONFIG.find((r) => r.id === roleId) || null;
+  const role = getDiscoveredRole(roleId);
+  return role ? toRoleInfo(role) : null;
 }
 
 /**
@@ -96,10 +93,10 @@ export function getMultipleRolesInfo(roleIds: string[]) {
 }
 
 /**
- * Get default role IDs
+ * Get default role IDs (all discovered roles)
  */
 export function getDefaultRoleIds(): string[] {
-  return ROLES_CONFIG.map((r) => r.id);
+  return discoverForms().map((r) => r.id);
 }
 
 /**

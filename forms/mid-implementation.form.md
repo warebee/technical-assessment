@@ -7,6 +7,13 @@ markform:
   run_mode: research
   roles: [agent]
   target_score: "76-90 points"
+  # Role metadata for auto-detection
+  role:
+    id: mid
+    title: Mid-Level Implementation
+    experience: "2-5 years"
+    estimated_time: "90-120 minutes"
+    sort_order: 2
 ---
 
 <!-- form id="mid_implementation_assessment" -->

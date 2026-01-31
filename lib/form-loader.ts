@@ -1,22 +1,18 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { parseMarkformEnhanced, ParsedForm, buildQuestionContextMap, mergeForms } from "./markform-parser";
-
-/**
- * Form file mapping by role
- */
-const FORM_FILE_MAP: Record<string, string> = {
-  junior: "junior-implementation.form.md",
-  mid: "mid-implementation.form.md",
-  senior: "senior-implementation.form.md",
-};
+import { getFormFileForRole } from "./form-discovery";
 
 /**
  * Load a form file by role ID
+ * Uses auto-discovered form files from /forms directory
  */
 export function loadFormByRole(roleId: string): ParsedForm | null {
-  const filename = FORM_FILE_MAP[roleId];
-  if (!filename) return null;
+  const filename = getFormFileForRole(roleId);
+  if (!filename) {
+    console.warn(`No form file found for role: ${roleId}`);
+    return null;
+  }
 
   try {
     const filePath = join(process.cwd(), "forms", filename);

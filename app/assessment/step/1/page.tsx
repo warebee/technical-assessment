@@ -1,7 +1,7 @@
 "use client";
 
 import AssessmentNav from "../../components/AssessmentNav";
-import { getAvailableRoles, getMultipleRolesInfo } from "@/lib/roles";
+import { RoleInfo, getMultipleRolesInfo } from "@/lib/roles";
 import {
   completeStep,
   loadWizardState,
@@ -27,8 +27,23 @@ function Step1Content() {
   const [showRestartConfirm, setShowRestartConfirm] = useState(false);
   const [isDirectMode, setIsDirectMode] = useState(false);
 
-  // Get available roles from forms directory (memoized to prevent infinite loops)
-  const availableRoles = useMemo(() => getAvailableRoles(), []);
+  // Fetch available roles from API (auto-discovered from /forms directory)
+  const [availableRoles, setAvailableRoles] = useState<RoleInfo[]>([]);
+  const [rolesLoading, setRolesLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/roles")
+      .then((res) => res.json())
+      .then((roles) => {
+        setAvailableRoles(roles);
+        setRolesLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch roles:", err);
+        setRolesLoading(false);
+      });
+  }, []);
+
   const validRoleIds = useMemo(() => availableRoles.map((r) => r.id), [availableRoles]);
 
   // Load existing state on mount - ALWAYS load candidate info
@@ -65,12 +80,14 @@ function Step1Content() {
       }
     } else {
       // No URL params - load roles/timer from saved state
+      // But DON'T restore isDirectMode - user should be able to select manually
       const state = loadWizardState();
       if (state) {
         if (state.selectedRoles && state.selectedRoles.length > 0)
           setSelectedRoles(state.selectedRoles);
         if (state.timerMode) setTimerMode(state.timerMode);
-        if (state.isDirectMode) setIsDirectMode(true);
+        // Note: We intentionally don't restore isDirectMode here
+        // When visiting without URL params, user should always see role/timer selection
       }
     }
   }, [searchParams, validRoleIds]);
@@ -132,6 +149,7 @@ function Step1Content() {
     setCandidateEmail("");
     setSelectedRoles([]);
     setTimerMode("none");
+    setIsDirectMode(false); // Reset direct mode so user can select roles
     setErrors({});
     setShowRestartConfirm(false);
   };
@@ -253,6 +271,12 @@ function Step1Content() {
               </div>
             )}
 
+            {rolesLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
+                <span className="ml-3 text-menu-h3">Loading roles...</span>
+              </div>
+            ) : (
             <div className="grid md:grid-cols-3 gap-4">
               {availableRoles.map((role) => {
                 const isSelected = selectedRoles.includes(role.id);
@@ -298,6 +322,7 @@ function Step1Content() {
                 );
               })}
             </div>
+            )}
 
             {/* Combined time estimate */}
             {multiRoleInfo && selectedRoles.length > 1 && (

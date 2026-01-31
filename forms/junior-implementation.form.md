@@ -7,6 +7,13 @@ markform:
   run_mode: research
   roles: [agent]
   target_score: "60-75 points"
+  # Role metadata for auto-detection
+  role:
+    id: junior
+    title: Junior Implementation
+    experience: "0-2 years"
+    estimated_time: "60-90 minutes"
+    sort_order: 1
 ---
 
 <!-- form id="junior_implementation_assessment" -->
@@ -172,7 +179,6 @@ Please review your answers before submitting. Your responses will be emailed to 
 - Target score for Junior role: 60-75 points
 - Core Questions (Total): 75 points possible
 - Focus on demonstrating problem-solving approach and SQL fundamentals
-
 
 <!-- /group -->
 
