@@ -1,7 +1,26 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bun install)"
+      "Bash(bun install)",
+      "Bash(bun run build)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:markform.dev)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(bun add:*)",
+      "Bash(bun run dev)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(cat:*)",
+      "mcp__octocode__localViewStructure",
+      "Bash(ls:*)",
+      "mcp__octocode__localSearchCode",
+      "Bash(npx tsc:*)",
+      "Bash(npm run build:*)",
+      "mcp__octocode__localGetFileContent",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: implement multi-step technical assessment wizard\n\nAdd a comprehensive technical assessment system with:\n- Three-step wizard flow \\(candidate info → dataset review → questions\\)\n- Role-based assessments \\(junior, mid, senior\\) with markdown form definitions\n- Markform parser for flexible question authoring\n- State persistence across page refreshes with sessionStorage\n- Timer functionality with bonus points for timed completion\n- Email notifications for assessment submissions using React Email\n- CSV export for datasets and results\n- Responsive UI with custom Tailwind theme\n\nThe assessment supports URL parameters for direct linking to specific\nroles and timer configurations, enabling customized assessment links.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }
