@@ -191,6 +191,9 @@ function extractVisibleContent(groupContent: string): string {
   content = content.replace(/<!-- field\s+[^>]*-->/g, '');
   content = content.replace(/<!-- \/field -->/g, '');
 
+  // Remove inline option ID comments like <!-- #blocked --> or <!-- #assignment_missing -->
+  content = content.replace(/\s*<!--\s*#\w+\s*-->/g, '');
+
   // Trim excess whitespace
   content = content.trim();
 
